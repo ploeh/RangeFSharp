@@ -1,3 +1,6 @@
-module Ploeh.Katas.Range
+namespace Ploeh.Katas
 
-let contains _ _ = true
+type Endpoint<'a> = Open of 'a | Closed of 'a
+
+module Range =
+    let contains _ _ = true

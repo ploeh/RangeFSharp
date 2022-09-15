@@ -7,5 +7,6 @@ module Range =
         match endpoints with
         | Open x, Open z ->
             ys |> List.forall (fun y -> x < y && y < z)
-        | Open x, Closed z -> false
+        | Open x, Closed z ->
+            ys |> List.forall (fun y -> x < y && y <= z)
         | _ -> true

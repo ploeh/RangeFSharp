@@ -23,3 +23,14 @@ let ``Open range doesn't contain endpoints`` () = Property.check <| property {
 
     Assert.False
         (actual, sprintf "Range (%i, %i) expected not to contain list." min max) }
+
+[<Fact>]
+let ``Open range contains list`` () = Property.check <| property {
+    let! xs = Gen.int64 (Range.linearBounded ()) |> Gen.list (Range.linear 1 99)
+    let min = List.min xs - 1L
+    let max = List.max xs + 1L
+
+    let actual = (Open min, Open max) |> Range.contains xs
+
+    Assert.True
+        (actual, sprintf "Range (%i, %i) expected to contain list." min max) }

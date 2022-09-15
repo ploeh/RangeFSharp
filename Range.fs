@@ -1,0 +1,1 @@
+module Ploeh.Katas.Range

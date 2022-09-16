@@ -100,3 +100,15 @@ let ``First functor law`` () = Property.check <| property {
     let actual = expected |> Ploeh.Katas.Range.map id
 
     expected =! actual }
+
+[<Fact>]
+let ``Second functor law`` () = Property.check <| property {
+    let genInt16 = Gen.int16 (Range.linearBounded ())
+    let genEndpoint = Gen.choice [Gen.map Open genInt16; Gen.map Closed genInt16]
+    let! range = Gen.tuple genEndpoint |> Gen.map Range.ofEndpoints
+    let! f = Gen.item [id; ((+) 1s); ((*) 2s)]
+    let! g = Gen.item [id; ((+) 1s); ((*) 2s)]
+
+    let actual = range |> Ploeh.Katas.Range.map (f << g)
+
+    Ploeh.Katas.Range.map f (Ploeh.Katas.Range.map g range) =! actual }

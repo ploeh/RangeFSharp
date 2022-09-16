@@ -2,6 +2,11 @@ namespace Ploeh.Katas
 
 type Endpoint<'a> = Open of 'a | Closed of 'a
 
+module Endpoint =
+    let map f = function
+        | Open   x -> Open   (f x)
+        | Closed x -> Closed (f x)
+
 module Range =
     let contains ys endpoints =
         match endpoints with

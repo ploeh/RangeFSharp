@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Range.fs" />
+    <Compile Include="EndpointTests.fs" />
     <Compile Include="RangeTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

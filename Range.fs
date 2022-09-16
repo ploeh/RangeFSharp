@@ -9,5 +9,6 @@ module Range =
             ys |> List.forall (fun y -> x < y && y < z)
         | Open x, Closed z ->
             ys |> List.forall (fun y -> x < y && y <= z)
-        | Closed x, Open z -> false
+        | Closed x, Open z ->
+            ys |> List.forall (fun y -> x <= y && y < z)
         | _ -> true

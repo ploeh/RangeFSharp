@@ -76,3 +76,16 @@ let ``Closed-open range contains list`` () = Property.check <| property {
 
     Assert.True
         (actual, sprintf "Range [%i, %i) expected to contain list." min max) }
+
+[<Fact>]
+let ``Closed range doesn't contain points outside range`` () = Property.check <| property {
+    let! min = Gen.int32 (Range.linearBounded ())
+    let! size = Gen.int32 (Range.linear 1 99)
+    let max = min + size
+
+    let outside = min - 1
+    let actual = (Closed min, Closed max) |> Range.contains [outside]
+
+    Assert.False (
+        actual,
+        sprintf "Range [%i, %i] expected not to contain [%i]." min max outside) }

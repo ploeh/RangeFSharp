@@ -17,8 +17,8 @@ module Range =
        { LowerBound = Endpoint.map f lowerBound
          UpperBound = Endpoint.map f upperBound }
 
-    let contains ys endpoints =
-        match endpoints with
+    let contains ys r =
+        match r.LowerBound, r.UpperBound with
         | Open x, Open z ->
             ys |> List.forall (fun y -> x  < y && y  < z)
         | Open x, Closed z ->

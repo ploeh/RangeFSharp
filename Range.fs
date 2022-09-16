@@ -7,7 +7,16 @@ module Endpoint =
         | Open   x -> Open   (f x)
         | Closed x -> Closed (f x)
 
+type Range<'a> = { LowerBound : Endpoint<'a>; UpperBound : Endpoint<'a> }
+
 module Range =
+    let ofEndpoints (lowerBound, upperBound) =
+        { LowerBound = lowerBound; UpperBound = upperBound }
+
+    let map f { LowerBound = lowerBound; UpperBound = upperBound } =
+       { LowerBound = Endpoint.map f lowerBound
+         UpperBound = Endpoint.map f upperBound }
+
     let contains ys endpoints =
         match endpoints with
         | Open x, Open z ->

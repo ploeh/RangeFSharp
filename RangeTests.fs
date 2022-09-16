@@ -2,6 +2,7 @@ module Ploeh.Katas.RangeTests
 
 open Xunit
 open Hedgehog
+open Swensen.Unquote
 
 [<Fact>]
 let ``Closed range contains list`` () = Property.check <| property {
@@ -89,3 +90,13 @@ let ``Closed range doesn't contain points outside range`` () = Property.check <|
     Assert.False (
         actual,
         sprintf "Range [%i, %i] expected not to contain [%i]." min max outside) }
+
+[<Fact>]
+let ``First functor law`` () = Property.check <| property {
+    let genInt64 = Gen.int64 (Range.linearBounded ())
+    let genEndpoint = Gen.choice [Gen.map Open genInt64; Gen.map Closed genInt64]
+    let! expected = Gen.tuple genEndpoint |> Gen.map Range.ofEndpoints
+
+    let actual = expected |> Ploeh.Katas.Range.map id
+
+    expected =! actual }
